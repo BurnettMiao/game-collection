@@ -59,15 +59,15 @@ function clickFunc() {
             return;
           }
 
+          currentSymbol = 'X';
+          console.log(moveO, isWin);
+          steps--;
+
           if (steps === 0) {
             isOver = true;
             console.log('平手狀態！！！');
             return;
           }
-
-          currentSymbol = 'X';
-          console.log(moveO, isWin);
-          steps--;
         }
 
         // computer
