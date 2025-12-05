@@ -1,2 +1,51 @@
-A game of Snake written in JavaScript 🐍 <br/>
-learning from YT: https://www.youtube.com/watch?v=Je0B3nHhKmM
+🎯 最強前端遊戲練習路線（改成拼圖版 + 2048）
+
+✔ 井字遊戲（Tic-Tac-Toe）
+
+事件處理 + 狀態切換 + 基礎邏輯
+
+目標：熟悉 DOM 操作、閉包、狀態維護
+
+⭐ 記憶翻牌（Memory Game）
+
+狀態機 + event-driven 思維
+
+目標：學會管理玩家動作、比對邏輯、陣列操作
+
+⭐ 數字/圖像拼圖（Sliding Puzzle）
+
+二維陣列 + 移動限制 + 勝利判斷
+
+目標：練習二維陣列狀態、上下左右滑動邏輯、勝利判斷
+
+難度比 Memory Game 高，比 2048 稍低
+
+⭐ 貪吃蛇（Snake Game）
+
+資料結構 + 遊戲 loop + collision 判斷
+
+目標：複雜狀態更新、動畫、邏輯整合
+
+難度比拼圖高，需要連續思考與資料結構管理能力
+
+⭐ 2048 遊戲
+
+二維陣列 + 合併邏輯 + 動態更新
+
+目標：學會處理二維陣列移動、合併邏輯、滑動事件
+
+難度比貪吃蛇稍高，需要抽象化陣列邏輯
+
+⭐ 拖曳排序（Drag & Drop）
+
+DOM 操作 + event 處理
+
+目標：提升對事件流、DOM 動態操作的熟悉度
+
+實務應用高，跟前端框架很接近
+
+⭐ Todo List（進階版）
+
+UI 更新 + 狀態管理 + 過濾功能
+
+目標：練習前端框架核心概念（Vue/React）
