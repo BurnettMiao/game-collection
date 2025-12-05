@@ -90,4 +90,29 @@ function winCheck(winnerArr, symbolArr) {
   return isWin;
 }
 
-clickFunc();
+// clickFunc();
+
+function computerMove() {
+  const gameContainer = document.getElementById('game-container');
+
+  let gridIndexArr = [];
+
+  const children = Array.from(gameContainer.children);
+
+  children.forEach((item) => {
+    if (item.innerText === '') {
+      gridIndexArr.push(Number(item.dataset.grid));
+    }
+  });
+
+  const randomIndex = Math.floor(Math.random() * gridIndexArr.length);
+
+  const randomGridIndex = gridIndexArr[randomIndex];
+
+  children[randomGridIndex - 1].innerText = 'X';
+
+  console.log(gridIndexArr);
+  console.log(randomIndex);
+}
+
+computerMove();
