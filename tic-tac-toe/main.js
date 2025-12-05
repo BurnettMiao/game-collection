@@ -47,30 +47,54 @@ function clickFunc() {
       if (target.innerText === '') {
         target.innerText = currentSymbol;
 
+        // user
         if (currentSymbol === 'O') {
           moveO.push(Number(target.dataset.grid));
+          // console.log(moveO);
 
           const isWin = winCheck(winnerArr, moveO);
           if (isWin) {
             isOver = true;
             console.log('O symbol 獲勝！！');
+            return;
           }
 
-          console.log(moveO, isWin);
-        } else {
-          moveX.push(Number(target.dataset.grid));
-
-          const isWin = winCheck(winnerArr, moveO);
-          if (isWin) {
+          if (steps === 0) {
             isOver = true;
-            console.log('X symbol 獲勝！！');
+            console.log('平手狀態！！！');
+            return;
           }
 
-          console.log(moveX, isWin);
+          currentSymbol = 'X';
+          console.log(moveO, isWin);
+          steps--;
         }
 
-        currentSymbol = currentSymbol === 'O' ? 'X' : 'O';
-        steps--;
+        // computer
+        if (currentSymbol === 'X') {
+          const randomTimeArr = [250, 500, 750, 1000];
+
+          const randomTime = Math.floor(Math.random() * randomTimeArr.length);
+
+          setTimeout(() => {
+            const computer = computerMove();
+            moveX.push(computer);
+            // console.log(moveX);
+
+            const isWin = winCheck(winnerArr, moveX);
+            if (isWin) {
+              isOver = true;
+              console.log('X symbol 獲勝！！');
+              return;
+            }
+
+            currentSymbol = 'O';
+
+            console.log(moveX, isWin);
+          }, randomTimeArr[randomTime]);
+          steps--;
+        }
+
         console.log('剩下steps:', steps);
       }
     }
@@ -90,8 +114,6 @@ function winCheck(winnerArr, symbolArr) {
   return isWin;
 }
 
-// clickFunc();
-
 function computerMove() {
   const gameContainer = document.getElementById('game-container');
 
@@ -105,14 +127,18 @@ function computerMove() {
     }
   });
 
+  // if (gridIndexArr.length === 0) {
+  //   return null;
+  // }
+
   const randomIndex = Math.floor(Math.random() * gridIndexArr.length);
 
   const randomGridIndex = gridIndexArr[randomIndex];
 
   children[randomGridIndex - 1].innerText = 'X';
 
-  console.log(gridIndexArr);
-  console.log(randomIndex);
+  return Number(randomGridIndex);
 }
 
-computerMove();
+// computerMove();
+clickFunc();
