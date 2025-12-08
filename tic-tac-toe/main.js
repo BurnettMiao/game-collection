@@ -1,5 +1,5 @@
 // ----- tic tac toe -----
-function clickFunc() {
+document.addEventListener('DOMContentLoaded', () => {
   let isOver = false;
   let steps = 9;
   let currentSymbol = 'O';
@@ -18,10 +18,13 @@ function clickFunc() {
   let moveX = [];
 
   const resetBtn = document.getElementById('reset-btn');
+  const gameContainer = document.getElementById('game-container');
 
+  // 重置按鈕
   resetBtn.addEventListener('click', () => {
-    const grids = document.querySelectorAll('.game-item');
-    grids.forEach((grid) => (grid.innerText = ''));
+    gameContainer
+      .querySelectorAll('.game-item')
+      .forEach((cell) => (cell.innerText = ''));
 
     isOver = false;
     steps = 9;
@@ -31,7 +34,8 @@ function clickFunc() {
     console.log('遊戲重置！');
   });
 
-  document.getElementById('game-container').addEventListener('click', (e) => {
+  // 主遊戲邏輯
+  gameContainer.addEventListener('click', (e) => {
     // 遊戲結束忽略點擊
     if (isOver) return;
 
@@ -50,24 +54,10 @@ function clickFunc() {
         // user
         if (currentSymbol === 'O') {
           moveO.push(Number(target.dataset.grid));
-          // console.log(moveO);
-
-          const isWin = winCheck(winnerArr, moveO);
-          if (isWin) {
-            isOver = true;
-            console.log('O symbol 獲勝！！');
-            return;
-          }
-
-          currentSymbol = 'X';
-          console.log(moveO, isWin);
           steps--;
 
-          if (steps === 0) {
-            isOver = true;
-            console.log('平手狀態！！！');
-            return;
-          }
+          if (checkGameEnd()) return;
+          currentSymbol = 'X';
         }
 
         // computer
@@ -79,20 +69,11 @@ function clickFunc() {
           setTimeout(() => {
             const computer = computerMove();
             moveX.push(computer);
-            // console.log(moveX);
+            steps--;
 
-            const isWin = winCheck(winnerArr, moveX);
-            if (isWin) {
-              isOver = true;
-              console.log('X symbol 獲勝！！');
-              return;
-            }
-
+            if (checkGameEnd()) return;
             currentSymbol = 'O';
-
-            console.log(moveX, isWin);
           }, randomTimeArr[randomTime]);
-          steps--;
         }
 
         console.log('剩下steps:', steps);
@@ -105,40 +86,47 @@ function clickFunc() {
       console.log('遊戲結束...');
     }
   });
-}
 
-function winCheck(winnerArr, symbolArr) {
-  const isWin = winnerArr.some((line) =>
-    line.every((num) => symbolArr.includes(num))
-  );
-  return isWin;
-}
-
-function computerMove() {
-  const gameContainer = document.getElementById('game-container');
-
-  let gridIndexArr = [];
-
-  const children = Array.from(gameContainer.children);
-
-  children.forEach((item) => {
-    if (item.innerText === '') {
-      gridIndexArr.push(Number(item.dataset.grid));
+  // 統一檢查遊戲結束
+  function checkGameEnd() {
+    if (winCheck(winnerArr, moveO)) {
+      isOver = true;
+      console.log('O symbol 獲勝！！');
+      return true;
     }
-  });
 
-  // if (gridIndexArr.length === 0) {
-  //   return null;
-  // }
+    if (winCheck(winnerArr, moveX)) {
+      isOver = true;
+      console.log('X symbol 獲勝！！');
+      return true;
+    }
 
-  const randomIndex = Math.floor(Math.random() * gridIndexArr.length);
+    if (steps === 0) {
+      isOver = true;
+      console.log('平手狀態！！！');
+      return true;
+    }
 
-  const randomGridIndex = gridIndexArr[randomIndex];
+    return false;
+  }
 
-  children[randomGridIndex - 1].innerText = 'X';
+  function winCheck(winnerArr, symbolArr) {
+    const isWin = winnerArr.some((line) =>
+      line.every((num) => symbolArr.includes(num))
+    );
+    return isWin;
+  }
 
-  return Number(randomGridIndex);
-}
+  // 電腦下棋
+  function computerMove() {
+    const emptyCells = [...gameContainer.children]
+      .filter((cell) => cell.innerText === '')
+      .map((cell) => ({ num: Number(cell.dataset.grid), el: cell }));
 
-// computerMove();
-clickFunc();
+    if (emptyCells.length === 0) return null;
+
+    const chosen = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+    chosen.el.innerText = 'X';
+    return chosen.num;
+  }
+});
